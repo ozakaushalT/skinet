@@ -1,5 +1,8 @@
+using API.DTOs;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Specifications;
 using Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +14,20 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _productService;
+        public IGenericRepository<Product> _prodRepo { get; }
+        public IGenericRepository<ProductBrand> _brandRepo { get; }
+        public IGenericRepository<ProductType> _typeRepo { get; }
+        private readonly IMapper _mapper;
+
         //this will be disposed when controller disposed.
-        public ProductsController(IProductRepository productService)
+        public ProductsController(IGenericRepository<Product> prodRepo, IGenericRepository<ProductBrand> brandRepo, IGenericRepository<ProductType> typeRepo,
+        IMapper mapper
+        )
         {
-            _productService = productService;
+            this._mapper = mapper;
+            this._prodRepo = prodRepo;
+            this._brandRepo = brandRepo;
+            this._typeRepo = typeRepo;
         }
 
         //why async is important
@@ -29,29 +41,35 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToRunDTOs>>> GetProducts()
         {
-            var products = await _productService.GetProductsAsync();
-            return Ok(products);
+
+            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var products = await _prodRepo.ListAsync(spec);
+            return Ok(_mapper.
+            Map<IReadOnlyList<Product>, IReadOnlyList<ProductToRunDTOs>>(products));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductToRunDTOs>> GetProduct(int id)
         {
-            var product = await _productService.GetProductByIdAsync(id);
-            return Ok(product);
+            var spec = new ProductsWithTypesAndBrandsSpecification(id);
+            //So after first step our criteria and Includes are ready to go
+            var product = await _prodRepo.GetEntityWithSpec(spec);
+
+            return Ok(_mapper.Map<Product, ProductToRunDTOs>(product));
         }
 
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
-            return Ok(await _productService.GetProductBrandsAsync());
+            return Ok(await _brandRepo.ListAllAsync());
         }
 
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
         {
-            return Ok(await _productService.GetProductTypesAsync());
+            return Ok(await _typeRepo.ListAllAsync());
         }
     }
 }

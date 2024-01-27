@@ -28,7 +28,8 @@ builder.Services.AddDbContext<StoreContext>(options =>
 
 //mapping services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //Add scoped means life time of http request
 //Add transient once method finishes...
 //Singleton till our application shuts down
@@ -43,6 +44,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.MapControllers();
 
@@ -51,14 +53,14 @@ var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 
-try
-{
-    await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context);
-}
-catch (Exception ex)
-{
-    logger.LogError(ex, "An error occured during migration in program.cs line 56");
-}
+// try
+// {
+//     await context.Database.MigrateAsync();
+//     await StoreContextSeed.SeedAsync(context);
+// }
+// catch (Exception ex)
+// {
+//     logger.LogError(ex, "An error occured during migration in program.cs line 56");
+// }
 
 app.Run();
