@@ -11,7 +11,7 @@ namespace Infrastructure.Database.Config
             builder.Property(_ => _.Id).IsRequired();
             builder.Property(_ => _.Name).IsRequired().HasMaxLength(1000);
             builder.Property(_ => _.Description).IsRequired();
-            // builder.Property(_ => _.PictureURL).IsRequired();
+            //builder.Property(_ => _.PictureURL).IsRequired();
             builder.Property(_ => _.Price).HasColumnType("decimal(18,2)");
             builder.HasOne(_ => _.ProductBrand).WithMany()
             .HasForeignKey(_ => _.ProductBrandId);

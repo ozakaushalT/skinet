@@ -1,4 +1,5 @@
 using API.DTOs;
+using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -10,9 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+
+    public class ProductsController : BaseAPIController
     {
         public IGenericRepository<Product> _prodRepo { get; }
         public IGenericRepository<ProductBrand> _brandRepo { get; }
@@ -51,12 +51,14 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductToRunDTOs>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
             //So after first step our criteria and Includes are ready to go
             var product = await _prodRepo.GetEntityWithSpec(spec);
-
+            if (product == null) return NotFound(new ApiResponse(404));
             return Ok(_mapper.Map<Product, ProductToRunDTOs>(product));
         }
 
