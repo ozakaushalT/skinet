@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -11,7 +7,6 @@ namespace Infrastructure.Database
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-
         private readonly StoreContext _context;
         public GenericRepository(StoreContext context)
         {
@@ -25,11 +20,9 @@ namespace Infrastructure.Database
         {
             return await _context.Set<T>().ToListAsync();
         }
-
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).ToListAsync();
-
         }
         public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
         {
@@ -37,12 +30,14 @@ namespace Infrastructure.Database
             //so just applying criteria and include explicitly
             return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
-
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
-
             // GetQuery(product ... so product will be converted to queryable)
+        }
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
         }
     }
 }

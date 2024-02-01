@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Errors;
+using API.Helpers;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -11,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-
     public class ProductsController : BaseAPIController
     {
         public IGenericRepository<Product> _prodRepo { get; }
@@ -29,7 +29,6 @@ namespace API.Controllers
             this._brandRepo = brandRepo;
             this._typeRepo = typeRepo;
         }
-
         //why async is important
         // if a method is set to async 
         // it is now treated as a task
@@ -38,16 +37,18 @@ namespace API.Controllers
         // there is a less probability of blockage
         // when first task is done it uses the thread again
         //..
-
-
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToRunDTOs>>> GetProducts()
+        //can not bind class in get
+        public async Task<ActionResult<Pagination<ProductToRunDTOs>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
-
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+            //below will fill the criteria and includes
+            var countSpec = new ProductsWithFiltersForCountSpecs(productParams);
+            var totalItems = await _prodRepo.CountAsync(countSpec);
             var products = await _prodRepo.ListAsync(spec);
-            return Ok(_mapper.
-            Map<IReadOnlyList<Product>, IReadOnlyList<ProductToRunDTOs>>(products));
+            var data = _mapper.
+            Map<IReadOnlyList<Product>, IReadOnlyList<ProductToRunDTOs>>(products);
+            return Ok(new Pagination<ProductToRunDTOs>(productParams.PageIndex, productParams.PageSize, totalItems, data));
         }
 
         [HttpGet("{id}")]
