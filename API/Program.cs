@@ -36,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+// use mkcert website for https://
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("CorsPolicy");

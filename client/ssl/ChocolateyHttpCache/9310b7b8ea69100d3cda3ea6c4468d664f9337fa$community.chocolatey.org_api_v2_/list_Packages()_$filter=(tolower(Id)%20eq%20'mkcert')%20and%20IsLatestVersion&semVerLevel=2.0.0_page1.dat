@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<feed xml:base="http://community.chocolatey.org/api/v2/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">Packages</title>
+  <id>http://community.chocolatey.org/api/v2/Packages</id>
+  <updated>2024-02-02T11:48:50Z</updated>
+  <link rel="self" title="Packages" href="Packages" />
+  <entry>
+    <id>http://community.chocolatey.org/api/v2/Packages(Id='mkcert',Version='1.4.4')</id>
+    <title type="text">mkcert</title>
+    <summary type="text">A simple zero-config tool to make locally trusted development certificates with any names you'd like.</summary>
+    <updated>2024-02-02T11:48:21Z</updated>
+    <author>
+      <name>Filippo Valsorda</name>
+    </author>
+    <link rel="edit-media" title="V2FeedPackage" href="Packages(Id='mkcert',Version='1.4.4')/$value" />
+    <link rel="edit" title="V2FeedPackage" href="Packages(Id='mkcert',Version='1.4.4')" />
+    <category term="CCR.Website.V2FeedPackage" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/zip" src="https://community.chocolatey.org/api/v2/package/mkcert/1.4.4" />
+    <m:properties xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices">
+      <d:Version>1.4.4</d:Version>
+      <d:Title>mkcert</d:Title>
+      <d:Description>`mkcert` is a simple CLI tool for making locally-trusted development certificates. It requires no configuration.
+
+`mkcert` automatically creates and installs a local CA in the system root store, and generates locally-trusted certificates. mkcert does not automatically configure servers to use the certificates, though, that's up to you.
+
+```sh
+$ mkcert -install
+Created a new local CA at "/Users/filippo/Library/Application Support/mkcert" 💥
+The local CA is now installed in the system trust store! ⚡️
+The local CA is now installed in the Firefox trust store (requires restart)! 🦊
+
+$ mkcert example.com "*.example.org" myapp.dev localhost 127.0.0.1 ::1
+Using the local CA at "/Users/filippo/Library/Application Support/mkcert" ✨
+
+Created a new certificate valid for the following names 📜
+ - "example.com"
+ - "*.example.org"
+ - "myapp.dev"
+ - "localhost"
+ - "127.0.0.1"
+ - "::1"
+
+The certificate is at "./example.com+5.pem" and the key at "./example.com+5-key.pem" ✅
+```</d:Description>
+      <d:Tags xml:space="preserve"> cli foss cross-platform development certificates </d:Tags>
+      <d:Copyright m:null="true"></d:Copyright>
+      <d:Created m:type="Edm.DateTime">2022-04-27T01:02:30.803</d:Created>
+      <d:Dependencies></d:Dependencies>
+      <d:DownloadCount m:type="Edm.Int32">202998</d:DownloadCount>
+      <d:VersionDownloadCount m:type="Edm.Int32">114678</d:VersionDownloadCount>
+      <d:GalleryDetailsUrl>https://community.chocolatey.org/packages/mkcert/1.4.4</d:GalleryDetailsUrl>
+      <d:ReportAbuseUrl>https://community.chocolatey.org/package/ReportAbuse/mkcert/1.4.4</d:ReportAbuseUrl>
+      <d:IconUrl></d:IconUrl>
+      <d:IsLatestVersion m:type="Edm.Boolean">true</d:IsLatestVersion>
+      <d:IsAbsoluteLatestVersion m:type="Edm.Boolean">true</d:IsAbsoluteLatestVersion>
+      <d:IsPrerelease m:type="Edm.Boolean">false</d:IsPrerelease>
+      <d:Language m:null="true"></d:Language>
+      <d:Published m:type="Edm.DateTime">2022-04-27T01:02:30.803</d:Published>
+      <d:LicenseUrl>https://github.com/FiloSottile/mkcert/blob/master/LICENSE</d:LicenseUrl>
+      <d:RequireLicenseAcceptance m:type="Edm.Boolean">true</d:RequireLicenseAcceptance>
+      <d:PackageHash>eBgL9rhWREPiFnwtMhCncofZQ7F7W5phKs5PPIgFbtSefcYOuPI3yI5AU5jXGirhi9o8Mlhwf/8d8a0rnMSkyg==</d:PackageHash>
+      <d:PackageHashAlgorithm>SHA512</d:PackageHashAlgorithm>
+      <d:PackageSize m:type="Edm.Int64">2817665</d:PackageSize>
+      <d:ProjectUrl>https://github.com/FiloSottile/mkcert</d:ProjectUrl>
+      <d:ReleaseNotes>https://github.com/FiloSottile/mkcert/releases/tag/v1.4.4</d:ReleaseNotes>
+      <d:ProjectSourceUrl></d:ProjectSourceUrl>
+      <d:PackageSourceUrl>https://github.com/majkinetor/chocolatey/tree/master/mkcert</d:PackageSourceUrl>
+      <d:DocsUrl>https://github.com/FiloSottile/mkcert/blob/master/README.md</d:DocsUrl>
+      <d:MailingListUrl></d:MailingListUrl>
+      <d:BugTrackerUrl>https://github.com/FiloSottile/mkcert/issues</d:BugTrackerUrl>
+      <d:IsApproved m:type="Edm.Boolean">true</d:IsApproved>
+      <d:PackageStatus>Approved</d:PackageStatus>
+      <d:PackageSubmittedStatus>Ready</d:PackageSubmittedStatus>
+      <d:PackageTestResultUrl>https://gist.github.com/5d9b636eb6d6bd51b8f87afce94bbd71</d:PackageTestResultUrl>
+      <d:PackageTestResultStatus>Passing</d:PackageTestResultStatus>
+      <d:PackageTestResultStatusDate m:type="Edm.DateTime">2022-04-27T01:42:30.563</d:PackageTestResultStatusDate>
+      <d:PackageValidationResultStatus>Passing</d:PackageValidationResultStatus>
+      <d:PackageValidationResultDate m:type="Edm.DateTime">2022-04-27T01:37:46.003</d:PackageValidationResultDate>
+      <d:PackageCleanupResultDate m:type="Edm.DateTime" m:null="true"></d:PackageCleanupResultDate>
+      <d:PackageReviewedDate m:type="Edm.DateTime">2022-04-27T02:03:55.737</d:PackageReviewedDate>
+      <d:PackageApprovedDate m:type="Edm.DateTime">2022-04-27T02:03:55.737</d:PackageApprovedDate>
+      <d:PackageReviewer m:null="true"></d:PackageReviewer>
+      <d:IsDownloadCacheAvailable m:type="Edm.Boolean">false</d:IsDownloadCacheAvailable>
+      <d:DownloadCacheStatus>Checked</d:DownloadCacheStatus>
+      <d:DownloadCacheDate m:type="Edm.DateTime">2022-04-27T03:04:22.327</d:DownloadCacheDate>
+      <d:DownloadCache m:null="true"></d:DownloadCache>
+      <d:PackageScanStatus>Flagged</d:PackageScanStatus>
+      <d:PackageScanResultDate m:type="Edm.DateTime">2022-04-27T02:03:55.737</d:PackageScanResultDate>
+      <d:PackageScanFlagResult>Note</d:PackageScanFlagResult>
+    </m:properties>
+  </entry>
+</feed>
