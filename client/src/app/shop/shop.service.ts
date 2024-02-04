@@ -28,4 +28,7 @@ export class ShopService {
   getTypes() {
     return this._http.get<Types[]>(this.baseURL + "products/types");
   }
+  getProduct(id: number) {
+    return this._http.get<Product>(this.baseURL + "products/" + id);
+  }
 }
