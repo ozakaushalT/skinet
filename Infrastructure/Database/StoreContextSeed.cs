@@ -12,23 +12,33 @@ namespace Infrastructure.Database
     {
         public static async Task SeedAsync(StoreContext context)
         {
+            Console.WriteLine("Went into Seed Async method");
+            context.Products.RemoveRange(context.Products.ToList());
+            context.ProductTypes.RemoveRange(context.ProductTypes.ToList());
+            context.ProductBrands.RemoveRange(context.ProductBrands.ToList());
+            context.SaveChanges();
+            Console.WriteLine(context.Products.Count());
             if (!context.ProductBrands.Any())
             {
+                Console.WriteLine("Went into ProductBrands");
                 var brandsData = File.ReadAllText("../Infrastructure/Database/SeedData/brands.json");
                 var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
+
                 context.ProductBrands.AddRange(brands);
             }
 
             if (!context.ProductTypes.Any())
             {
+                Console.WriteLine("Went into ProductTypes");
+
                 var typesData = File.ReadAllText("../Infrastructure/Database/SeedData/types.json");
                 var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
                 context.ProductTypes.AddRange(types);
             }
 
-
             if (!context.Products.Any())
             {
+                Console.WriteLine("Went into Products");
                 var productsData = File.ReadAllText("../Infrastructure/Database/SeedData/products.json");
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
                 context.Products.AddRange(products);
@@ -36,7 +46,23 @@ namespace Infrastructure.Database
 
             if (context.ChangeTracker.HasChanges())
             {
-                await context.SaveChangesAsync();
+                Console.WriteLine("******* Changes are detected ******");
+                try
+                {
+                    await context.SaveChangesAsync();
+                    Console.WriteLine("******* Saved changes ******");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("***************************");
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("***************************");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("No changes were detected");
             }
         }
     }

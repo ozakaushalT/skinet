@@ -22,7 +22,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddApplicationService(builder.Configuration);
-
 var app = builder.Build();
 
 //exception handling middleware
@@ -37,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 // use mkcert website for https://
+// ng g c nav-bar --dry-run to check the logs, no changes will be made actually
+// ng g c nav-bar --skip-tests
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("CorsPolicy");
@@ -48,14 +49,14 @@ var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 
-try
-{
-    await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context);
-}
-catch (Exception ex)
-{
-    logger.LogError(ex.ToString(), "An error occured during migration in program.cs line 56");
-}
+// try
+// {
+//     await context.Database.MigrateAsync();
+//     await StoreContextSeed.SeedAsync(context);
+// }
+// catch (Exception ex)
+// {
+//     logger.LogError(ex.ToString(), "An error occured during migration in program.cs line 56");
+// }
 
 app.Run();
