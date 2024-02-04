@@ -26,10 +26,10 @@
 
         <div class="col-9">
             <div class="d-flex justify-content-between align-items-center pb-2">
-                <header>
-                    <span>Showing <strong> {{(shopParams.PageIndex * shopParams.PageSize - shopParams.PageSize)+1}} -
-                            {{shopParams.PageSize * shopParams.PageIndex}}</strong> of <strong></strong> results</span>
-                </header>
+                <!-- paging header -->
+                <app-paging-header [PageIndex]="shopParams.PageIndex" [PageSize]="shopParams.PageSize"
+                    [Count]="shopParams.Count"></app-paging-header>
+                <!-- paging header -->
                 <div class="d-flex mt-2">
                     <input (keyup.enter)="onProductSearched()" type="text" placeholder="search"
                         class="form-control me-2" #searchKey />
@@ -44,11 +44,9 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center align-items-center mt-3">
-                <pagination (pageChanged)="onPageChanged($event)" [boundaryLinks]="true" [totalItems]="shopParams.Count"
-                    [maxSize]="shopParams.PageSize" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
-                    lastText="&raquo;">
-                </pagination>
+            <div class="d-flex justify-content-center align-items-center mt-3" *ngIf="shopParams.Count > 0">
+                <app-pager [PageSize]="shopParams.PageSize" [Count]="shopParams.Count"
+                    (pageChanged)="onPageChanged($event)"></app-pager>
             </div>
         </div>
     </div>
