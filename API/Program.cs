@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 //dotnet sln add projectname 
 //dotnet ef migrations remove -p Infrastructure -s API  
 //dotnet ef migrations add InitialCreate -p Infrastructure -s
-
+// docker-compose up --detach -- detach is for bg running
 
 // Add services to the container.
 
