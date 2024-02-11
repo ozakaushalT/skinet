@@ -1,0 +1,82 @@
+<div class="container mt-5">
+    <div *ngIf="(basketService.basketSource$ | async) === null">
+        <p>Looks like you have not added any items yet...</p>
+    </div>
+
+    <ng-container *ngIf="basketService.basketSource$ | async as basket">
+        <div class="container">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="bg-light text-uppercase">
+                            <tr>
+                                <th>
+                                    <div class="py-">Product</div>
+                                </th>
+                                <th>
+                                    <div class="py-">Price</div>
+                                </th>
+                                <th>
+                                    <div class="py-">Quantity</div>
+                                </th>
+                                <th>
+                                    <div class="py-">Total</div>
+                                </th>
+                                <th>
+                                    <div class="py-">Remove</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of basket.items">
+                                <th>
+                                    <div class="p-2 d-inline-block">
+                                        <img src="{{item.pictureUrl}}" style="max-height:50px;" class="img-fluid"
+                                            alt="{{item.productName}}">
+                                        <div class="ms-3 d-inline-block align-middle">
+                                            <h5 class="mb-0">
+                                                <a class="text-dark text-decoration-none">{{item.productName}}</a>
+                                            </h5>
+                                            <span class="text-muted fst-italic">{{item.type}}</span>
+                                        </div>
+                                    </div>
+                                </th>
+                                <td class="align-middle">
+                                    <strong>{{item.price | currency}}</strong>
+                                </td>
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <i (click)="reduceQuantity(item.id)"
+                                            class="fa fa-minus-circle text-warning me-2"
+                                            style="cursor: pointer;font-size:2em;"></i>
+                                        <strong class="font-size:1.5em;">{{item.quantity}}</strong>
+                                        <i (click)="addQuantity(item.id, 1)" class="fa fa-plus-circle text-warning ms-2"
+                                            style="cursor: pointer;font-size:2em;"></i>
+                                    </div>
+                                </td>
+                                <td class="align-middle"><strong>{{(item.price * item.quantity) | currency}}</strong>
+                                </td>
+                                <td class=align-middle>
+                                    <a (click)="deleteItemFromTheBasket(item.id)" class="text-danger"><i
+                                            class="fa fa-trash" style="font-size:2em;cursor: pointer;"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6">
+                    <app-summary></app-summary>
+                    <div class="d-grid mb-4">
+                        <a routerLink="/checkout" class="btn btn-outline-primary py-2">Proceed to checkout</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+
+</div>
