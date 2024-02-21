@@ -1,6 +1,9 @@
 using API.Extensions;
 using API.Middleware;
+using Core.Entities.Identity;
 using Infrastructure.Database;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 //dotnet ef migrations remove -p Infrastructure -s API  
 //dotnet ef migrations add InitialCreate -p Infrastructure -s
 // docker-compose up --detach -- detach is for bg running
-
+// dotnet ef migrations add IdentityInitial -p Infrastructure -s API -c AppIdentityContext -o Identity/Migrations
 // Add services to the container.
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -22,19 +25,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddApplicationService(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddSwaggerDocumentation();
 var app = builder.Build();
 
 //exception handling middleware
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UserSwaggerDocumentation();
 // use mkcert website for https://
 // ng g c nav-bar --dry-run to check the logs, no changes will be made actually
 // ng g c nav-bar --skip-tests
@@ -42,17 +41,21 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("CorsPolicy");
 app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
+var identityContext = services.GetRequiredService<AppIdentityContext>();
+var userManager = services.GetRequiredService<UserManager<AppUser>>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 
 // try
 // {
-//     await context.Database.MigrateAsync();
-//     await StoreContextSeed.SeedAsync(context);
+//     //await context.Database.MigrateAsync();
+//     await identityContext.Database.MigrateAsync();
+//     await AppIdentitySeed.SeedUserAsync(userManager);
 // }
 // catch (Exception ex)
 // {

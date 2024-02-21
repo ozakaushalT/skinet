@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'shop', loadChildren: () => import('./shop/shop.module').then(_ => _.ShopModule) },
   { path: 'basket', loadChildren: () => import('./basket/basket.module').then(_ => _.BasketModule) },
   { path: 'checkout', loadChildren: () => import('./checkout/checkout.module').then(_ => _.CheckoutModule) },
+  { path: 'account', loadChildren: () => import('./account/account.module').then(_ => _.AccountModule) },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
