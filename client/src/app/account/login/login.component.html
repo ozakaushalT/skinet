@@ -1,5 +1,36 @@
 <div class="d-flex justify-content-center mt-5">
-        <div class="col-3">
-        
-        </div>
+  <div class="col-3">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="text-center mb-4">
+        <h1 class="mb-3">Login</h1>
+      </div>
+      <!-- email content was here -->
+      <app-text-input
+        [formControl]="loginForm.controls['email']"
+        [label]="'email'"
+      ></app-text-input>
+      <!-- email content was here -->
+      <app-text-input
+        [formControl]="loginForm.controls['password']"
+        [type]="'password'"
+        [label]="'password'"
+      ></app-text-input>
+      <!-- password content was here -->
+      <div class="d-grid">
+        <button
+          [disabled]="loginForm.invalid"
+          class="btn btn-primary btn-lg mt-3"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+  <!-- <div class="col-4">
+    <p>Form status: {{ loginForm.status }}</p>
+    <p>Email status: {{ loginForm.get("email")?.status }}</p>
+    <p>Email touched status: {{ loginForm.get("email")?.touched }}</p>
+    <p>Email dirty: {{ loginForm.get("email")?.dirty }}</p>
+  </div> -->
 </div>

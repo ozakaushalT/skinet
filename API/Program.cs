@@ -37,6 +37,7 @@ app.UserSwaggerDocumentation();
 // use mkcert website for https://
 // ng g c nav-bar --dry-run to check the logs, no changes will be made actually
 // ng g c nav-bar --skip-tests
+// class not registered in WSL : https://github.com/microsoft/WSL/releases/tag/2.0.15
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("CorsPolicy");

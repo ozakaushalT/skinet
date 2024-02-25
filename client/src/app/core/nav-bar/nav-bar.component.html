@@ -1,18 +1,71 @@
 <header
-    class="d-flex flex-row align-items-center justify-content-between p-3 px-4 mb-3 border-bottom bg-white fixed-top shadow-sm">
-    <img routerLink="/" src="../../assets/images/logo.png" class="logo" alt="Skinet" style="max-height: 70px;">
-    <nav class="my-2 text-uppercase fs-5 fw-medium">
-        <a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
-        <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
-        <a class="p-2" routerLink="/error" routerLinkActive="active">Contact</a>
-    </nav>
-    <div class="d-flex align-items-center">
-        <a routerLink="/basket" class="link-body-emphasis text-decoration-none position-relative">
-            <i class="fa fa-shopping-cart fa-2x me-5 text-dark"></i>
-            <div class="cart-no" *ngIf="(basketService.basketSource$ | async) as basket">{{getCount(basket.items)}}
-            </div>
+  class="d-flex flex-row align-items-center justify-content-between p-3 px-4 mb-3 border-bottom bg-white fixed-top shadow-sm"
+>
+  <img
+    routerLink="/"
+    src="../../assets/images/logo.png"
+    class="logo"
+    alt="Skinet"
+    style="max-height: 70px"
+  />
+  <nav class="my-2 text-uppercase fs-5 fw-medium">
+    <a
+      class="p-2"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Home</a
+    >
+    <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
+    <a class="p-2" routerLink="/error" routerLinkActive="active">Contact</a>
+  </nav>
+  <div class="d-flex align-items-center">
+    <a
+      routerLink="/basket"
+      class="link-body-emphasis text-decoration-none position-relative"
+    >
+      <i class="fa fa-shopping-cart fa-2x me-5 text-dark"></i>
+      <div
+        class="cart-no"
+        *ngIf="basketService.basketSource$ | async as basket"
+      >
+        {{ getCount(basket.items) }}
+      </div>
+    </a>
+    <ng-container
+      *ngIf="(this.accntService.currentUserSource$ | async) === null"
+    >
+      <a routerLink="/account/login" class="btn btn-outline-secondary me-2"
+        >Login</a
+      >
+      <a routerLink="/account/register" class="btn btn-outline-secondary me-3"
+        >Sign up</a
+      >
+    </ng-container>
+    <ng-container *ngIf="this.accntService.currentUserSource$ | async as user">
+      <div class="dropdown ms-3 me-5" style="cursor: pointer" dropdown>
+        <a class="dropdown-toggle" dropdownToggle>
+          <strong>Welcome {{ user.displayName }}</strong>
         </a>
-        <a routerLink="/account/login" class="btn btn-outline-secondary me-2">Login</a>
-        <a routerLink="/account/register" class="btn btn-outline-secondary me-3">Sign up</a>
-    </div>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+          <li class="py-1">
+            <a class="dropdown-item" routerLink="/basket">
+              <i class="fa fa-shopping-cart me-3"></i>&nbsp;View basket
+            </a>
+          </li>
+          <li class="py-1">
+            <a class="dropdown-item" routerLink="/orders">
+              <i class="fa fa-history me-3"></i>&nbsp;View orders
+            </a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <li class="py-1">
+            <a class="dropdown-item" (click)="accntService.logOut()">
+              <i class="fa fa-sign-out me-3"></i>&nbsp;Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </div>
 </header>
