@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 
 namespace Infrastructure.Database
 {
@@ -16,6 +17,7 @@ namespace Infrastructure.Database
             context.Products.RemoveRange(context.Products.ToList());
             context.ProductTypes.RemoveRange(context.ProductTypes.ToList());
             context.ProductBrands.RemoveRange(context.ProductBrands.ToList());
+            context.DeliveryMethods.RemoveRange(context.DeliveryMethods.ToList());
             context.SaveChanges();
             Console.WriteLine(context.Products.Count());
             if (!context.ProductBrands.Any())
@@ -63,6 +65,14 @@ namespace Infrastructure.Database
             else
             {
                 Console.WriteLine("No changes were detected");
+            }
+
+            if (!context.DeliveryMethods.Any())
+            {
+                Console.WriteLine("Went into Delivery Methods");
+                var deliveryData = File.ReadAllText("../Infrastructure/Database/SeedData/delivery.json");
+                var delivery = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+                context.DeliveryMethods.AddRange(delivery);
             }
         }
     }

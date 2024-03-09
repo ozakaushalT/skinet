@@ -41,11 +41,6 @@ namespace API.Extensions
                 };
             });
 
-
-
-
-
-
             services.AddAuthentication();
 
             return services;

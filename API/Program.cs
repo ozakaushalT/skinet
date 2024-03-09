@@ -52,15 +52,16 @@ var identityContext = services.GetRequiredService<AppIdentityContext>();
 var userManager = services.GetRequiredService<UserManager<AppUser>>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 
-// try
-// {
-//     //await context.Database.MigrateAsync();
-//     await identityContext.Database.MigrateAsync();
-//     await AppIdentitySeed.SeedUserAsync(userManager);
-// }
-// catch (Exception ex)
-// {
-//     logger.LogError(ex.ToString(), "An error occured during migration in program.cs line 56");
-// }
+try
+{
+    await context.Database.MigrateAsync();
+    await StoreContextSeed.SeedAsync(context);
+    //await identityContext.Database.MigrateAsync();
+    //await AppIdentitySeed.SeedUserAsync(userManager);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex.ToString(), "An error occured during migration in program.cs line 56");
+}
 
 app.Run();
